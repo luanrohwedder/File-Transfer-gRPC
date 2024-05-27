@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+service FileTransfer {
+    rpc UploadFile (stream UploadFileRequest) returns (UploadStatus);
+    rpc DownloadFile (FileRequest) returns (stream FileChunk);
+    rpc ListFiles(Empty) returns (FileList);
+    rpc DriveSpace(Empty) returns (Space);
+}
+
+message Empty {}
+
+message FileChunk {
+    bytes content = 1;
+}
+
+message MetaData {
+    string filename = 1;
+    string extension = 2;
+    int64 size = 3;
+}
+
+message UploadFileRequest {
+    oneof data {
+        MetaData metadata = 1;
+        FileChunk chunk = 2;
+    }
+}
+
+message UploadStatus {
+    bool success = 1;
+    string message = 2;
+}
+
+message FileInfo {
+    string filename = 1;
+    int64 size = 2;
+}
+
+message FileList {
+    repeated FileInfo files = 1;
+}
+
+message FileRequest {
+    string filename = 1;
+    string extension = 2;
+}
+
+message Space {
+    int64 total_space = 1;
+    int64 used_space = 2;
+}
