@@ -9,7 +9,7 @@ import os
 
 class FileTransferClient:
     def __init__(self, port):
-        self.channel = grpc.insecure_channel('localhost:3002')
+        self.channel = grpc.insecure_channel(f'localhost:{port}')
         self.stub = ft_grpc.FileTransferStub(self.channel)
         
     def upload_file(self, filepath):
