@@ -14,7 +14,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x13\x66ile_transfer.proto\"\x07\n\x05\x45mpty\"\x1c\n\tFileChunk\x12\x0f\n\x07\x63ontent\x18\x01 \x01(\x0c\"=\n\x08MetaData\x12\x10\n\x08\x66ilename\x18\x01 \x01(\t\x12\x11\n\textension\x18\x02 \x01(\t\x12\x0c\n\x04size\x18\x03 \x01(\x03\"W\n\x11UploadFileRequest\x12\x1d\n\x08metadata\x18\x01 \x01(\x0b\x32\t.MetaDataH\x00\x12\x1b\n\x05\x63hunk\x18\x02 \x01(\x0b\x32\n.FileChunkH\x00\x42\x06\n\x04\x64\x61ta\"0\n\x0cUploadStatus\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x0f\n\x07message\x18\x02 \x01(\t\"*\n\x08\x46ileInfo\x12\x10\n\x08\x66ilename\x18\x01 \x01(\t\x12\x0c\n\x04size\x18\x02 \x01(\x03\"$\n\x08\x46ileList\x12\x18\n\x05\x66iles\x18\x01 \x03(\x0b\x32\t.FileInfo\"2\n\x0b\x46ileRequest\x12\x10\n\x08\x66ilename\x18\x01 \x01(\t\x12\x11\n\textension\x18\x02 \x01(\t\"0\n\x05Space\x12\x13\n\x0btotal_space\x18\x01 \x01(\x03\x12\x12\n\nused_space\x18\x02 \x01(\x03\x32\xab\x01\n\x0c\x46ileTransfer\x12\x31\n\nUploadFile\x12\x12.UploadFileRequest\x1a\r.UploadStatus(\x01\x12*\n\x0c\x44ownloadFile\x12\x0c.FileRequest\x1a\n.FileChunk0\x01\x12\x1e\n\tListFiles\x12\x06.Empty\x1a\t.FileList\x12\x1c\n\nDriveSpace\x12\x06.Empty\x1a\x06.Spaceb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x13\x66ile_transfer.proto\"\x07\n\x05\x45mpty\"\x1c\n\tFileChunk\x12\x0f\n\x07\x63ontent\x18\x01 \x01(\x0c\"=\n\x08MetaData\x12\x10\n\x08\x66ilename\x18\x01 \x01(\t\x12\x11\n\textension\x18\x02 \x01(\t\x12\x0c\n\x04size\x18\x03 \x01(\x03\"W\n\x11UploadFileRequest\x12\x1d\n\x08metadata\x18\x01 \x01(\x0b\x32\t.MetaDataH\x00\x12\x1b\n\x05\x63hunk\x18\x02 \x01(\x0b\x32\n.FileChunkH\x00\x42\x06\n\x04\x64\x61ta\"*\n\x06Status\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x0f\n\x07message\x18\x02 \x01(\t\"*\n\x08\x46ileInfo\x12\x10\n\x08\x66ilename\x18\x01 \x01(\t\x12\x0c\n\x04size\x18\x02 \x01(\x03\"$\n\x08\x46ileList\x12\x18\n\x05\x66iles\x18\x01 \x03(\x0b\x32\t.FileInfo\"2\n\x0b\x46ileRequest\x12\x10\n\x08\x66ilename\x18\x01 \x01(\t\x12\x11\n\textension\x18\x02 \x01(\t\"0\n\x05Space\x12\x13\n\x0btotal_space\x18\x01 \x01(\x03\x12\x12\n\nused_space\x18\x02 \x01(\x03\x32\xca\x01\n\x0c\x46ileTransfer\x12+\n\nUploadFile\x12\x12.UploadFileRequest\x1a\x07.Status(\x01\x12*\n\x0c\x44ownloadFile\x12\x0c.FileRequest\x1a\n.FileChunk0\x01\x12#\n\nDeleteFile\x12\x0c.FileRequest\x1a\x07.Status\x12\x1e\n\tListFiles\x12\x06.Empty\x1a\t.FileList\x12\x1c\n\nDriveSpace\x12\x06.Empty\x1a\x06.Spaceb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -29,16 +29,16 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['_METADATA']._serialized_end=123
   _globals['_UPLOADFILEREQUEST']._serialized_start=125
   _globals['_UPLOADFILEREQUEST']._serialized_end=212
-  _globals['_UPLOADSTATUS']._serialized_start=214
-  _globals['_UPLOADSTATUS']._serialized_end=262
-  _globals['_FILEINFO']._serialized_start=264
-  _globals['_FILEINFO']._serialized_end=306
-  _globals['_FILELIST']._serialized_start=308
-  _globals['_FILELIST']._serialized_end=344
-  _globals['_FILEREQUEST']._serialized_start=346
-  _globals['_FILEREQUEST']._serialized_end=396
-  _globals['_SPACE']._serialized_start=398
-  _globals['_SPACE']._serialized_end=446
-  _globals['_FILETRANSFER']._serialized_start=449
-  _globals['_FILETRANSFER']._serialized_end=620
+  _globals['_STATUS']._serialized_start=214
+  _globals['_STATUS']._serialized_end=256
+  _globals['_FILEINFO']._serialized_start=258
+  _globals['_FILEINFO']._serialized_end=300
+  _globals['_FILELIST']._serialized_start=302
+  _globals['_FILELIST']._serialized_end=338
+  _globals['_FILEREQUEST']._serialized_start=340
+  _globals['_FILEREQUEST']._serialized_end=390
+  _globals['_SPACE']._serialized_start=392
+  _globals['_SPACE']._serialized_end=440
+  _globals['_FILETRANSFER']._serialized_start=443
+  _globals['_FILETRANSFER']._serialized_end=645
 # @@protoc_insertion_point(module_scope)

@@ -1,8 +1,9 @@
 syntax = "proto3";
 
 service FileTransfer {
-    rpc UploadFile (stream UploadFileRequest) returns (UploadStatus);
+    rpc UploadFile (stream UploadFileRequest) returns (Status);
     rpc DownloadFile (FileRequest) returns (stream FileChunk);
+    rpc DeleteFile (FileRequest) returns (Status);
     rpc ListFiles(Empty) returns (FileList);
     rpc DriveSpace(Empty) returns (Space);
 }
@@ -26,7 +27,7 @@ message UploadFileRequest {
     }
 }
 
-message UploadStatus {
+message Status {
     bool success = 1;
     string message = 2;
 }

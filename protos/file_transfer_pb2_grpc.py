@@ -42,12 +42,17 @@ class FileTransferStub(object):
         self.UploadFile = channel.stream_unary(
                 '/FileTransfer/UploadFile',
                 request_serializer=file__transfer__pb2.UploadFileRequest.SerializeToString,
-                response_deserializer=file__transfer__pb2.UploadStatus.FromString,
+                response_deserializer=file__transfer__pb2.Status.FromString,
                 _registered_method=True)
         self.DownloadFile = channel.unary_stream(
                 '/FileTransfer/DownloadFile',
                 request_serializer=file__transfer__pb2.FileRequest.SerializeToString,
                 response_deserializer=file__transfer__pb2.FileChunk.FromString,
+                _registered_method=True)
+        self.DeleteFile = channel.unary_unary(
+                '/FileTransfer/DeleteFile',
+                request_serializer=file__transfer__pb2.FileRequest.SerializeToString,
+                response_deserializer=file__transfer__pb2.Status.FromString,
                 _registered_method=True)
         self.ListFiles = channel.unary_unary(
                 '/FileTransfer/ListFiles',
@@ -76,6 +81,12 @@ class FileTransferServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def DeleteFile(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
     def ListFiles(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
@@ -94,12 +105,17 @@ def add_FileTransferServicer_to_server(servicer, server):
             'UploadFile': grpc.stream_unary_rpc_method_handler(
                     servicer.UploadFile,
                     request_deserializer=file__transfer__pb2.UploadFileRequest.FromString,
-                    response_serializer=file__transfer__pb2.UploadStatus.SerializeToString,
+                    response_serializer=file__transfer__pb2.Status.SerializeToString,
             ),
             'DownloadFile': grpc.unary_stream_rpc_method_handler(
                     servicer.DownloadFile,
                     request_deserializer=file__transfer__pb2.FileRequest.FromString,
                     response_serializer=file__transfer__pb2.FileChunk.SerializeToString,
+            ),
+            'DeleteFile': grpc.unary_unary_rpc_method_handler(
+                    servicer.DeleteFile,
+                    request_deserializer=file__transfer__pb2.FileRequest.FromString,
+                    response_serializer=file__transfer__pb2.Status.SerializeToString,
             ),
             'ListFiles': grpc.unary_unary_rpc_method_handler(
                     servicer.ListFiles,
@@ -138,7 +154,7 @@ class FileTransfer(object):
             target,
             '/FileTransfer/UploadFile',
             file__transfer__pb2.UploadFileRequest.SerializeToString,
-            file__transfer__pb2.UploadStatus.FromString,
+            file__transfer__pb2.Status.FromString,
             options,
             channel_credentials,
             insecure,
@@ -166,6 +182,33 @@ class FileTransfer(object):
             '/FileTransfer/DownloadFile',
             file__transfer__pb2.FileRequest.SerializeToString,
             file__transfer__pb2.FileChunk.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def DeleteFile(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/FileTransfer/DeleteFile',
+            file__transfer__pb2.FileRequest.SerializeToString,
+            file__transfer__pb2.Status.FromString,
             options,
             channel_credentials,
             insecure,
