@@ -58,7 +58,7 @@ class FileTrasnferServicer(file_transfer_pb2_grpc.FileTransferServicer):
         with open(filepath, "wb") as f:
             f.write(data)
             
-        return file_transfer_pb2.UploadStatus(success=True, message="File upload successfully!")
+        return file_transfer_pb2.Status(success=True, message="File upload successfully!")
     
     def DownloadFile(self, request, context):
         filename = f'{request.filename}.{request.extension}'
@@ -76,6 +76,22 @@ class FileTrasnferServicer(file_transfer_pb2_grpc.FileTransferServicer):
             except Exception as e:
                 context.set_details(f'Error reading file: {e}')
                 context.set_code(grpc.StatusCode.INTERNAL)
+        else:
+            context.set_details("File not found")
+            context.set_code(grpc.StatusCode.NOT_FOUND)
+
+    def DeleteFile(self, request, context):
+        filename = f'{request.filename}.{request.extension}'
+        filepath = os.path.join(self.storage_dir, filename)
+        
+        if (os.path.exists(filepath)):
+            try:
+                os.remove(filepath)
+                return file_transfer_pb2.Status(success=True, message="File deleted successfully!")
+            except Exception as e:
+                context.set_details(f'Error deleting file: {e}')
+                context.set_code(grpc.StatusCode.INTERNAL)
+                return file_transfer_pb2.Status(success=False, message="Error deleting selected file!")
         else:
             context.set_details("File not found")
             context.set_code(grpc.StatusCode.NOT_FOUND)

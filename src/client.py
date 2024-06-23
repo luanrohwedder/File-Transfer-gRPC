@@ -40,7 +40,13 @@ class FileTransferClient:
         with open(save_path, "wb") as f:
             for chunk in response_stream:
                 f.write(chunk.content)
-                
+    
+    def delete_file(self, filename, extension):
+        request = ft.FileRequest(filename=filename, extension=extension)
+        response = self.stub.DeleteFile(request)
+        
+        return response
+        
     def list_files(self):
         response = self.stub.ListFiles(ft.Empty())
         return response.files
@@ -71,20 +77,23 @@ class App:
         self.download_button = ttk.Button(self.root, text="Download File", command=self.download_file, width=bt_width)
         self.download_button.grid(row=0, column=1, padx=5, pady=10)
         
+        self.download_button = ttk.Button(self.root, text="Delete File", command=self.delete_file, width=bt_width)
+        self.download_button.grid(row=0, column=2, padx=5, pady=10)
+        
         self.update_button = tk.Button(self.root, text="Update", command=self.list_files, width=bt_width)
-        self.update_button.grid(row=0, column=2, padx=5, pady=10)
+        self.update_button.grid(row=0, column=3, padx=5, pady=10)
 
         self.drive_info_label = ttk.Label(self.root, text="")
         self.drive_info_label.grid(row=2, column=0, padx=5, pady=5, sticky="w")
         
         self.drive_space_progressbar = ttk.Progressbar(self.root, orient=tk.HORIZONTAL, length=200, mode='determinate')
-        self.drive_space_progressbar.grid(row=2, column=1, columnspan=2, padx=5, pady=5, sticky="ew")
+        self.drive_space_progressbar.grid(row=2, column=1, columnspan=3, padx=5, pady=5, sticky="ew")
 
         self.tree = ttk.Treeview(self.root, columns=("Name", "Size"), show="headings")
         self.tree.heading("Name", text="Name")
         self.tree.heading("Size", text="Size")
         self.tree.column("Size", anchor="center", width=1)
-        self.tree.grid(row=1, column=0, columnspan=3, sticky="nsew", padx=5, pady=5)
+        self.tree.grid(row=1, column=0, columnspan=4, sticky="nsew", padx=5, pady=5)
         
         self.root.grid_columnconfigure(0, weight=1)
         self.root.grid_columnconfigure(1, weight=1)
@@ -124,7 +133,30 @@ class App:
                         messagebox.showinfo("Success", f'File {filename} downloaded successfully')
                     except grpc.RpcError as e:
                         messagebox.showerror("Error", f"Failed to download file: {e.details()}")
-                    
+    
+    def delete_file(self):
+        selected = self.tree.focus()
+        
+        if selected:
+            item = self.tree.item(selected)
+            values = item.get("values", [])
+            
+            if values:
+                filename_extension = values[0]
+                filename = os.path.splitext(filename_extension)[0]
+                extension = os.path.splitext(filename_extension)[1][1:]
+                confirm = messagebox.askyesno("Confirmation", f"Do you really want to delete the file: {filename_extension}?")
+                
+                if confirm:
+                    response = self.client.delete_file(filename, extension)
+                       
+                    if response.success:
+                        messagebox.showinfo("Success", response.message)
+                        self.list_files()
+                        self.drive_space
+                    else:
+                        messagebox.showinfo("Error", response.message)        
+
     def list_files(self):
         for item in self.tree.get_children():
             self.tree.delete(item)
@@ -135,6 +167,8 @@ class App:
             filename = file.filename
             size = file.size
             self.tree.insert("", "end", values=(filename, self.format_size(size)))
+            
+        self.drive_space()
             
     def drive_space(self):
         total_space, used_space = self.client.drive_space()
