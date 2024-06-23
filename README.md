@@ -17,6 +17,11 @@ Identificar e instalar os pacotes
 pip install -e .
 ```
 
+Instalar as dependências
+```
+pip install -r requirements.txt
+```
+
 Executar o servidor
 ```
 python src/server.py -port <porta>
