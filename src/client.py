@@ -68,8 +68,8 @@ class App:
         bt_width = 20
         
         self.root.title("File Trasnfer Client")
-        self.root.geometry("1280x720")
-        self.root.resizable(False, False)
+        self.root.geometry("896x504")
+        self.root.resizable(True, True)
                 
         self.upload_button = ttk.Button(self.root, text="Upload File", command=self.upload_file, width=bt_width)
         self.upload_button.grid(row=0, column=0, padx=5, pady=10)
