@@ -43,7 +43,7 @@ class FileTrasnferServicer(file_transfer_pb2_grpc.FileTransferServicer):
                 no_space = calculate_space(size, self.storage_dir)
                 
                 if no_space:
-                    return file_transfer_pb2.UploadStatus(success=False, message="No space available for upload")
+                    return file_transfer_pb2.Status(success=False, message="No space available for upload")
                 
                 filename = f'{request.metadata.filename}.{request.metadata.extension}'
                 filepath = os.path.join(self.storage_dir, filename)
@@ -53,7 +53,7 @@ class FileTrasnferServicer(file_transfer_pb2_grpc.FileTransferServicer):
         if filepath is None:
             context.set_code(grpc.StatusCode.INVALID_ARGUMENT)
             context.set_details('No file metadata provided')
-            return file_transfer_pb2.UploadStatus(success=False, message="Failed to upload file")        
+            return file_transfer_pb2.Status(success=False, message="Failed to upload file")        
     
         with open(filepath, "wb") as f:
             f.write(data)
